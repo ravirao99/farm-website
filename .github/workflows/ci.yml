@@ -17,9 +17,9 @@ jobs:
           node-version: '22'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci  # Ensures a clean installation from package-lock.json
 
-      - name: Install react-router-dom (if needed)
+      - name: Install react-router-dom
         run: npm install react-router-dom
 
       - name: Run Tests
