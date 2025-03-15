@@ -11,16 +11,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
       - name: Install Dependencies
-        run: npm ci  # Ensures a clean installation from package-lock.json
-
-      - name: Install react-router-dom
-        run: npm install react-router-dom
+        run: npm ci
 
       - name: Run Tests
-        run: npm test
+        run: npm test -- --verbose
