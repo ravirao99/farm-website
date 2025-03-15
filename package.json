@@ -54,6 +54,7 @@
     "@babel/preset-typescript": "^7.26.0",
     "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.14",
+    "@types/react-router-dom": "^5.3.3",
     "ajv": "^8.17.1",
     "ajv-keywords": "^5.1.0",
     "babel-jest": "^29.7.0",
