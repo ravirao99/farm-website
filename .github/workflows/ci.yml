@@ -24,20 +24,16 @@ jobs:
         with:
           node-version: '22.13.1'
 
-      - name: Clear Cache (if needed)
-        run: rm -rf node_modules
+      - name: Clean Install Dependencies
+        run: |
+          rm -rf node_modules
+          npm ci
 
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Log Installed Dependencies
+      - name: Log Installed Dependencies in CI
         run: npm ls react-router-dom
 
-      - name: Log Environment Info
-        run: |
-          node -v
-          npm -v
-          uname -a
+      - name: List Files in CI
+        run: ls -R
 
       - name: Run Tests
         run: npm test -- --verbose
