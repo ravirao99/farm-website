@@ -2,11 +2,16 @@ name: CI Test
 
 on:
   push:
+    branches:
+      - main  # Trigger when changes are pushed to the `main` branch
   pull_request:
+    branches:
+      - main  # Trigger when a pull request is created for `main` branch
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -14,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20  # Use the appropriate Node.js version for your project
+          node-version: '22'  # Use the appropriate Node.js version for your project
 
       - name: Install Dependencies
         run: npm install  # Use 'yarn install' if you're using Yarn
@@ -24,3 +29,17 @@ jobs:
 
       - name: Build the Project
         run: npm run build  # If applicable
+
+      - name: Run Docker Image
+        run: |
+          docker build -t farm-website .
+          docker run -d -p 3000:3000 farm-website
+
+      - name: Verify Docker Container is Running
+        run: |
+          docker ps
+
+      - name: Clean up Docker Container
+        run: |
+          docker stop $(docker ps -q)
+          docker rm $(docker ps -a -q)
