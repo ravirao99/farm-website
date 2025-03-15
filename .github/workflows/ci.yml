@@ -11,27 +11,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Cache node modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.13.1'
 
-      - name: Clean Install Dependencies
+      - name: Clean Dependencies
         run: |
-          rm -rf node_modules
+          rm -rf node_modules package-lock.json
           npm install --legacy-peer-deps
-          npm ls react-router-dom
 
-      - name: Check for Case Sensitivity
-        run: find ./src -type f
+      - name: Debug Module Paths
+        run: node -p "require.resolve.paths('react-router-dom')"
 
-      - name: Debug Jest
+      - name: Run Tests
         run: npm test -- --logHeapUsage --verbose
