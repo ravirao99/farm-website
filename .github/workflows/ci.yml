@@ -27,13 +27,11 @@ jobs:
       - name: Clean Install Dependencies
         run: |
           rm -rf node_modules
-          npm ci
+          npm install --legacy-peer-deps
+          npm ls react-router-dom
 
-      - name: Log Installed Dependencies in CI
-        run: npm ls react-router-dom
+      - name: Check for Case Sensitivity
+        run: find ./src -type f
 
-      - name: List Files in CI
-        run: ls -R
-
-      - name: Run Tests
-        run: npm test -- --verbose
+      - name: Debug Jest
+        run: npm test -- --logHeapUsage --verbose
